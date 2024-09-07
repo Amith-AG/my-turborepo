@@ -1,4 +1,4 @@
-import type { NextAuthConfig, Session } from 'next-auth'
+import type { NextAuthConfig  } from 'next-auth'
 import NextAuth, { CredentialsSignin } from 'next-auth'
 import Google from 'next-auth/providers/google'
 import Github from 'next-auth/providers/github'
@@ -8,12 +8,12 @@ import Credentials from 'next-auth/providers/credentials'
 import { loginSchema } from './schema/zod-form'
 import { getUserAccountByEmail } from './data/user'
 import bcrypt from 'bcryptjs'
-import { Adapter, AdapterSession, AdapterUser } from 'next-auth/adapters'
+import { Adapter   } from 'next-auth/adapters'
 import { Prisma } from '@prisma/client'
 import { ZodError } from 'zod'
 import { v4 as uuidv4 } from 'uuid'
 import { encode } from 'next-auth/jwt'
-import email from 'next-auth/providers/email'
+
 class InvalidLoginError extends CredentialsSignin {
   constructor(code: string) {
     super()

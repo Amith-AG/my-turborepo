@@ -13,8 +13,9 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
   const Router = useRouter()
 
   const HandleOnClick = () => {
-    Router.push('/login')
+    Router.push('auth/login')
   }
+  //TODO:Implement Modal
 
   if (mode == 'modal') {
     return <div></div>

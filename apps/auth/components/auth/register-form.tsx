@@ -2,83 +2,80 @@
 import React, { useState, useTransition } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
-import { loginSchema } from '@/schema/zod-form'
+import { registrationSchema } from '@/schema/zod-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@repo/ui/components/ui/input'
 import { Button } from '@repo/ui/components/ui/button'
 import { CardWrapper } from './card-wrapper'
 import { Label } from '@repo/ui/components/ui/label'
-import { LoginAction } from '@/action/login'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { RegisterAction } from '@/action/registration'
 import { FormError, FormSucess } from './form-status'
-import Link from 'next/link'
-import { Ghost } from 'lucide-react'
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
+  type registerType = z.infer<typeof registrationSchema>
   const [isPending, startTransition] = useTransition()
-  const [sucess, setSucess] = useState('')
   const [error, setError] = useState('')
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl')
-  const router = useRouter()
-  type logintype = z.infer<typeof loginSchema>
+  const [sucess, setSucess] = useState('')
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registrationSchema),
     defaultValues: {
+      username: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   })
-  const onSubmit = async (data: logintype) => {
+  const onSubmit = async (data: registerType) => {
     console.log(data)
-    console.log('callbackUrl in form:', callbackUrl)
     setError('')
     setSucess('')
     startTransition(() => {
-      LoginAction(data, callbackUrl).then((res) => {
-        res?.error && setError(res.error)
-        res?.sucess && setSucess(res?.sucess)
+      RegisterAction(data).then((res) => {
+        res.error && setError(res.error)
+        res.sucess && setSucess(res.sucess)
       })
-      router.refresh()
     })
   }
   return (
     <CardWrapper
       headerLabel="Welcome to nextjs authjs v5"
       showSocial
-      backButtonHref="/auth/register"
+      backButtonHref="/auth/login"
       backButtonLabel="Don't have an account? Sign up now"
       className="w-[100%] h-[100%] p-2 shadow-xl"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+        <Label className="required">Username</Label>
+        <Input {...register('username')} disabled={isPending} />
+        {errors.username && (
+          <span className="text-red-600">{errors.username.message}</span>
+        )}
         <Label className="required">Email</Label>
         <Input {...register('email')} disabled={isPending} />
         {errors.email && (
           <span className="text-red-600">{errors.email.message}</span>
         )}
-        <Label className="required">Passwords</Label>
+        <Label className="required">Password</Label>
         <Input {...register('password')} disabled={isPending} />
         {errors.password && (
           <span className="text-red-600">{errors.password.message}</span>
         )}
-        <Button
-          variant={'link'}
-          asChild
-          className="text-sm font-normal self-end"
-        >
-          <Link href="/auth/reset">forget password?</Link>
-        </Button>
+        <Label className="required">Confirm Password</Label>
+        <Input {...register('confirmPassword')} disabled={isPending} />
+        {errors.confirmPassword && (
+          <span className="text-red-600">{errors.confirmPassword.message}</span>
+        )}
         <Button type="submit" disabled={isPending}>
-          Login
+          Register
         </Button>
+        {error && <FormError message={error} />}
+        {sucess && <FormSucess message={sucess} />}
       </form>
-      {sucess && <FormSucess message={sucess} />}
-      {error && <FormError message={error} />}
     </CardWrapper>
   )
 }

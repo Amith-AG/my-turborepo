@@ -1,19 +1,13 @@
 'use client'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger } from '@repo/ui/components/ui/sheet'
 import Link from 'next/link'
-import { CircleUser, Menu, Package2 } from 'lucide-react'
+import { Menu, Package2 } from 'lucide-react'
 import { Button } from '@repo/ui/components/ui/button'
 import { usePathname } from 'next/navigation'
+import ProfileButton from './ui/profileButton'
 export const Header = () => {
   const pathname = usePathname()
+
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <div className="flex w-[100%] items-center justify-between">
@@ -38,7 +32,7 @@ export const Header = () => {
               href="rsc"
               className={`${pathname === '/rsc' ? 'text-foreground' : 'text-muted-foreground'} transition-colors hover:text-foreground`}
             >
-              Client Side
+              Server Side
             </Link>
             <Link
               href="product"
@@ -110,24 +104,7 @@ export const Header = () => {
             </SheetContent>
           </Sheet>
         </>
-        <>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </>
+        <ProfileButton />
       </div>
     </header>
   )

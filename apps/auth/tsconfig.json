@@ -5,6 +5,8 @@
     "paths": {
       "@/*": ["*"]
     },
+    "declaration": false,
+    "declarationMap": false,
     "plugins": [
       {
         "name": "next"
@@ -20,5 +22,6 @@
     ".next/types/**/*.ts",
     "global.d.ts"
   ],
+
   "exclude": ["node_modules"]
 }

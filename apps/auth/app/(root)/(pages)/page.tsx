@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { AuroraBackgroundComp } from '@/components/Aurora-Background'
 import { LoginButton } from '@/components/auth/login-button'
 
-export default function Dashboard() {
+export default async function Dashboard() {
   return (
     <div>
       <AuroraBackgroundComp>
@@ -17,8 +17,8 @@ export default function Dashboard() {
         <div className="text-3xl md:text-7xl font-bold dark:text-white text-center">
           Seamless Authentication with Next.js!
         </div>
-        <div className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4">
-          Implemention of Authentication with Next Auth v4
+        <div className="font-extralight text-center text-base md:text-4xl dark:text-neutral-200 py-4">
+          Implemention of Authentication with Next Auth v5
         </div>
         <LoginButton mode="page" asChild>
           <Button className="rounded-full w-fit text-white ">Sign In</Button>

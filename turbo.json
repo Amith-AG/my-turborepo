@@ -1,23 +1,21 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
-  "globalDotEnv": [".env"],
-  "pipeline": {
+  "globalEnv": [".env"],
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "dotEnv": [".env.production.local"],
+      "inputs": [".env.production.local"],
       "env": ["POSTGRES_PRISMA_URL"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "dependsOn": ["^lint"],
-      "dotEnv": [".env.production.local"],
-      "env": ["POSTGRES_PRISMA_URL", "NODE_ENV"]
+      "dependsOn": ["^lint"]
     },
     "dev": {
       "cache": false,
       "persistent": true,
-      "dotEnv": [".env"],
+      "inputs": [".env"],
       "env": ["POSTGRES_PRISMA_URL", "NODE_ENV"]
     }
   }
